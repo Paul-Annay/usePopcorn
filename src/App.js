@@ -3,6 +3,8 @@ import StarRating from "./components/StarRating";
 import Navbar from "./components/Navbar";
 import Search from "./components/Search";
 import NumResults from "./components/NumResults";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
 import { tempMovieData, tempWatchedData } from "./data";
 
 const average = (arr) =>
@@ -115,20 +117,6 @@ export default function App() {
                 </Box>
             </Main>
         </>
-    );
-}
-
-function Loader() {
-    return <p className='loader'>Loading...</p>;
-}
-
-function ErrorMessage({ message }) {
-    return (
-        <p className='error'>
-            <span>❌</span>
-            {message}
-            <span>❓</span>
-        </p>
     );
 }
 
