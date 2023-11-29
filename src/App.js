@@ -8,6 +8,7 @@ import ErrorMessage from "./components/ErrorMessage";
 import { tempMovieData, tempWatchedData } from "./data";
 import Box from "./components/Box";
 import Main from "./components/Main";
+import MovieList from "./components/MovieList";
 
 const average = (arr) =>
     arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -119,35 +120,6 @@ export default function App() {
                 </Box>
             </Main>
         </>
-    );
-}
-
-function MovieList({ movies, onSelectMovie }) {
-    return (
-        <ul className='list list-movies'>
-            {movies?.map((movie) => (
-                <Movie
-                    onSelectMovie={onSelectMovie}
-                    movie={movie}
-                    key={movie.imdbID}
-                />
-            ))}
-        </ul>
-    );
-}
-
-function Movie({ movie, onSelectMovie }) {
-    return (
-        <li onClick={() => onSelectMovie(movie.imdbID)}>
-            <img src={movie.Poster} alt={`${movie.Title} poster`} />
-            <h3>{movie.Title}</h3>
-            <div>
-                <p>
-                    <span>🗓</span>
-                    <span>{movie.Year}</span>
-                </p>
-            </div>
-        </li>
     );
 }
 
