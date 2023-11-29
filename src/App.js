@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import StarRating from "./components/StarRating";
 import Navbar from "./components/Navbar";
 import Search from "./components/Search";
 import NumResults from "./components/NumResults";
@@ -9,11 +8,10 @@ import { tempMovieData, tempWatchedData } from "./data";
 import Box from "./components/Box";
 import Main from "./components/Main";
 import MovieList from "./components/MovieList";
+import MovieDetails from "./components/MovieDetails";
 
 const average = (arr) =>
     arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
-
-const KEY = "f44f409d";
 
 export default function App() {
     const [movies, setMovies] = useState(tempMovieData);
@@ -25,13 +23,12 @@ export default function App() {
 
     useEffect(
         function () {
-            console.log("Fetching Data ...");
             async function fetchMovies() {
                 try {
                     setIsLoading(true);
                     setError("");
                     const res = await fetch(
-                        `http://www.omdbapi.com/?i=tt3896198&apikey=${KEY}&s=${query}`
+                        `http://www.omdbapi.com/?i=tt3896198&apikey=${process.env.REACT_APP_KEY}&s=${query}`
                     );
 
                     if (!res.ok) {
@@ -120,127 +117,6 @@ export default function App() {
                 </Box>
             </Main>
         </>
-    );
-}
-
-function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
-    const [movie, setMovie] = useState({});
-    const [isLoading, setIsLoading] = useState(false);
-    const [userRating, setUserRating] = useState("");
-
-    const {
-        Title: title,
-        Year: year,
-        Poster: poster,
-        imdbRating,
-        Runtime: runtime,
-        Plot: plot,
-        Released: released,
-        Actors: actors,
-        Director: director,
-        Genre: genre,
-    } = movie;
-
-    const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
-    const watchedUserRating = watched.find(
-        (movie) => movie.imdbID === selectedId
-    )?.userRating;
-
-    function handleAdd() {
-        const newWatchedMovie = {
-            imdbID: selectedId,
-            title,
-            year,
-            poster,
-            imdbRating: Number(imdbRating),
-            runtime: Number(runtime.split(" ").at(0)),
-            userRating,
-        };
-        onAddWatched(newWatchedMovie);
-        onCloseMovie();
-    }
-
-    useEffect(
-        function () {
-            async function getMovieDetails() {
-                setIsLoading(true);
-                const res = await fetch(
-                    `http://www.omdbapi.com/?&apikey=${KEY}&i=${selectedId}`
-                );
-                const data = await res.json();
-                setMovie(data);
-                setIsLoading(false);
-            }
-
-            getMovieDetails();
-        },
-        [selectedId]
-    );
-
-    useEffect(
-        function () {
-            document.title = `MOVIE: ${movie?.Title}`;
-        },
-        [movie]
-    );
-
-    return (
-        <div className='details'>
-            {isLoading ? (
-                <Loader />
-            ) : (
-                <>
-                    <header>
-                        <button className='btn-back' onClick={onCloseMovie}>
-                            &larr;
-                        </button>
-                        <img src={poster} alt={`Poster of ${title}`} />
-                        <div className='details-overview'>
-                            <h2>{title}</h2>
-                            <p>
-                                {released} &bull; {runtime}
-                            </p>
-                            <p>{genre}</p>
-                            <p>
-                                <span>⭐</span>
-                                {imdbRating} IMDb rating
-                            </p>
-                        </div>
-                    </header>
-
-                    <section>
-                        <div className='rating'>
-                            {!isWatched ? (
-                                <>
-                                    <StarRating
-                                        maxRating={10}
-                                        size={24}
-                                        onSetRating={setUserRating}
-                                    />
-                                    {userRating > 0 && (
-                                        <button
-                                            className='btn-add'
-                                            onClick={handleAdd}>
-                                            + Add to list
-                                        </button>
-                                    )}
-                                </>
-                            ) : (
-                                <p>
-                                    You've already rated this movie with{" "}
-                                    {watchedUserRating}
-                                </p>
-                            )}
-                        </div>
-                        <p>
-                            <em>{plot}</em>
-                        </p>
-                        <p>Starring {actors}</p>
-                        <p>Directed by {director}</p>
-                    </section>
-                </>
-            )}
-        </div>
     );
 }
 
