@@ -40,7 +40,7 @@ export default function StarRating({
         fontSize: `${size / 1.5}px`,
     };
 
-    const index = tempRating ? tempRating - 1 : rating - 1;
+    // const index = tempRating ? tempRating - 1 : rating - 1;
     return (
         <div className={className} style={containerStyles}>
             <div style={starContainerStyle}>
