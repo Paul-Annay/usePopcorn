@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import StarRating from "./StarRating";
-import Navbar from "./Navbar";
-import Search from "./Search";
-import NumResults from "./NumResults";
+import StarRating from "./components/StarRating";
+import Navbar from "./components/Navbar";
+import Search from "./components/Search";
+import NumResults from "./components/NumResults";
 
 const tempMovieData = [
     {
