@@ -6,6 +6,8 @@ import NumResults from "./components/NumResults";
 import Loader from "./components/Loader";
 import ErrorMessage from "./components/ErrorMessage";
 import { tempMovieData, tempWatchedData } from "./data";
+import Box from "./components/Box";
+import Main from "./components/Main";
 
 const average = (arr) =>
     arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -117,25 +119,6 @@ export default function App() {
                 </Box>
             </Main>
         </>
-    );
-}
-
-function Main({ children }) {
-    return <main className='main'>{children}</main>;
-}
-
-function Box({ children }) {
-    const [isOpen, setIsOpen] = useState(true);
-
-    return (
-        <div className='box'>
-            <button
-                className='btn-toggle'
-                onClick={() => setIsOpen((open) => !open)}>
-                {isOpen ? "–" : "+"}
-            </button>
-            {isOpen && children}
-        </div>
     );
 }
 
