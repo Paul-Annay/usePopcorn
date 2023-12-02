@@ -22,6 +22,7 @@ export default function App() {
 
     useEffect(
         function () {
+            const controller = new AbortController();
             async function fetchMovies() {
                 try {
                     setIsLoading(true);
@@ -42,9 +43,11 @@ export default function App() {
                     }
 
                     setMovies(data.Search);
+                    setError("");
                 } catch (error) {
-                    console.error(error);
-                    setError(error.message);
+                    if (error.name !== "AbortError") {
+                        setError(error.message);
+                    }
                 } finally {
                     setIsLoading(false);
                 }
@@ -57,6 +60,9 @@ export default function App() {
             }
 
             fetchMovies();
+            return function () {
+                controller.abort();
+            };
         },
         [query]
     );
