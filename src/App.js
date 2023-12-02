@@ -20,6 +20,22 @@ export default function App() {
     const [query, setQuery] = useState("");
     const [selectedId, setSelectedId] = useState("");
 
+    function handleSelectMovie(id) {
+        setSelectedId((prevId) => (id === prevId ? null : id));
+    }
+
+    function handleCloseMovie() {
+        setSelectedId(null);
+    }
+
+    function handleAddWatched(movie) {
+        setWatched((watched) => [...watched, movie]);
+    }
+
+    function handleDeleteWatched(id) {
+        setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+    }
+
     useEffect(
         function () {
             const controller = new AbortController();
@@ -66,22 +82,6 @@ export default function App() {
         },
         [query]
     );
-
-    function handleSelectMovie(id) {
-        setSelectedId((prevId) => (id === prevId ? null : id));
-    }
-
-    function handleCloseMovie() {
-        setSelectedId(null);
-    }
-
-    function handleAddWatched(movie) {
-        setWatched((watched) => [...watched, movie]);
-    }
-
-    function handleDeleteWatched(id) {
-        setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
-    }
 
     return (
         <>
