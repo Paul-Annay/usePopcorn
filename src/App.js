@@ -10,11 +10,11 @@ import NumResults from "./components/NumResults";
 import Search from "./components/Search";
 import WatchedMoviesList from "./components/WatchedMoviesList";
 import WatchedSummary from "./components/WatchedSummary";
-import { tempMovieData, tempWatchedData } from "./data";
+import { tempMovieData } from "./data";
 
 export default function App() {
     const [movies, setMovies] = useState(tempMovieData);
-    const [watched, setWatched] = useState(tempWatchedData);
+    const [watched, setWatched] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     const [query, setQuery] = useState("");
@@ -35,6 +35,13 @@ export default function App() {
     function handleDeleteWatched(id) {
         setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
     }
+
+    useEffect(
+        function () {
+            localStorage.setItem("watched", JSON.stringify(watched));
+        },
+        [watched]
+    );
 
     useEffect(
         function () {
