@@ -48,6 +48,10 @@ export default function MovieDetails({
     useEffect(
         function () {
             document.title = `MOVIE: ${movie?.Title}`;
+
+            return function () {
+                document.title = "usePopcorn";
+            };
         },
         [movie]
     );
