@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Loader from "./Loader";
 import Header from "./MovieDetailsHeader";
 import Section from "./MovieDetailsSection";
+import { useKey } from "../hooks/useKey";
 
 export default function MovieDetails({
     selectedId,
@@ -12,21 +13,7 @@ export default function MovieDetails({
     const [movie, setMovie] = useState({});
     const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(
-        function () {
-            function callback(e) {
-                if (e.code === "Escape") {
-                    onCloseMovie();
-                }
-            }
-            document.addEventListener("keydown", callback);
-
-            return function () {
-                document.removeEventListener("keydown", callback);
-            };
-        },
-        [onCloseMovie]
-    );
+    useKey("Escape", onCloseMovie);
 
     useEffect(
         function () {
