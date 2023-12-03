@@ -14,7 +14,7 @@ import { tempMovieData } from "./data";
 
 export default function App() {
     const [movies, setMovies] = useState(tempMovieData);
-    const [watched, setWatched] = useState(function () {
+    const [watched, setWatched] = useState([], function () {
         return JSON.parse(localStorage.getItem("watched"));
     });
     const [isLoading, setIsLoading] = useState(false);
